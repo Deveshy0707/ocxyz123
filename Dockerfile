@@ -59,7 +59,7 @@ RUN apt-get update && \
 
 RUN groupadd crond-users && \
     mkdir -p /var/run && \
-    chgrp crond-users /var/run/crond.pid && \
+    chgrp crond-users /var/run && \
     usermod -a -G crond-users $DEV_USER
 
 USER $DEV_USER
