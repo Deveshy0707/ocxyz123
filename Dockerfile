@@ -30,6 +30,17 @@ WORKDIR /api
 COPY Gemfile* ./
 RUN RAILS_ENV=production bundle
 
+ARG DEV_USER=judge0
+ARG DEV_USER_ID=1000
+
+RUN groupadd crond-users && \
+    mkdir -p /var/run && \
+    touch /var/run/crond.pid && \
+    chgrp crond-users /var/run/crond.pid && \
+    usermod -a -G crond-users $DEV_USER && \
+    chown judge0:judge0 /var/run
+
+
 COPY cron /etc/cron.d
 RUN cat /etc/cron.d/* | crontab -
 
@@ -47,8 +58,8 @@ LABEL version=$JUDGE0_VERSION
 
 FROM production AS development
 
-ARG DEV_USER=judge0
-ARG DEV_USER_ID=1000
+# ARG DEV_USER=judge0
+# ARG DEV_USER_ID=1000
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -57,11 +68,11 @@ RUN apt-get update && \
     useradd -u $DEV_USER_ID -m -r $DEV_USER && \
     echo "$DEV_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
 
-RUN groupadd crond-users && \
-    mkdir -p /var/run && \
-    touch /var/run/crond.pid && \
-    chgrp crond-users /var/run/crond.pid && \
-    usermod -a -G crond-users $DEV_USER
+# RUN groupadd crond-users && \
+#     mkdir -p /var/run && \
+#     touch /var/run/crond.pid && \
+#     chgrp crond-users /var/run/crond.pid && \
+#     usermod -a -G crond-users $DEV_USER
 
 USER $DEV_USER
 
