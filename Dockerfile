@@ -57,6 +57,10 @@ RUN apt-get update && \
     useradd -u $DEV_USER_ID -m -r $DEV_USER && \
     echo "$DEV_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
 
+RUN groupadd crond-users && \
+    chgrp crond-users /var/run/crond.pid && \
+    usermod -a -G crond-users $DEV_USER
+
 USER $DEV_USER
 
 CMD ["sleep", "infinity"]
