@@ -38,6 +38,7 @@ COPY . .
 ENTRYPOINT ["/api/docker-entrypoint.sh"]
 CMD ["/api/scripts/server"]
 RUN chmod +x /api/docker-entrypoint.sh
+RUN chmod +x /api/scripts/workers
 
 
 ENV JUDGE0_VERSION "1.13.0"
