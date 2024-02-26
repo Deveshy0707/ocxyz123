@@ -1,7 +1,7 @@
 version: "2"
 services:
   judge0:
-    image: judge0/judge0:latest-dev
+    image: deveshy/compilerserver:v1tes1
     build:
       context: .
       target: development

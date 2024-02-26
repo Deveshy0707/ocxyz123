@@ -23,7 +23,7 @@ x-config: &config
 
 services:
   server:
-    image: judge0/judge0:latest
+    image: deveshy/compilerserver:v1tes1
     environment:
       <<: *config
       <<: *db
@@ -35,7 +35,7 @@ services:
     restart: always
 
   worker:
-    image: judge0/judge0:latest
+    image: deveshy/compilerserver:v1tes1
     command: ["./scripts/workers"]
     environment:
       <<: *config
