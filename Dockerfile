@@ -10,25 +10,23 @@ ENV JUDGE0_MAINTAINER "Herman Zvonimir Došilović <hermanz.dosilovic@gmail.com>
 LABEL maintainer=$JUDGE0_MAINTAINER
 
 
-ENV RUBY_VERSIONS \
-      2.7.0
-RUN set -xe && \
-    for VERSION in $RUBY_VERSIONS; do \
-      curl -fSsL "https://cache.ruby-lang.org/pub/ruby/${VERSION%.*}/ruby-$VERSION.tar.gz" -o /tmp/ruby-$VERSION.tar.gz && \
-      mkdir /tmp/ruby-$VERSION && \
-      tar -xf /tmp/ruby-$VERSION.tar.gz -C /tmp/ruby-$VERSION --strip-components=1 && \
-      rm /tmp/ruby-$VERSION.tar.gz && \
-      cd /tmp/ruby-$VERSION && \
-      ./configure \
-        --disable-install-doc \
-        --prefix=/usr/local/ruby-$VERSION && \
-      make -j$(nproc) && \
-      make -j$(nproc) install && \
-      rm -rf /tmp/*; \
-    done
+# ENV RUBY_VERSIONS \
+#       2.7.0
+# RUN set -xe && \
+#     for VERSION in $RUBY_VERSIONS; do \
+#       curl -fSsL "https://cache.ruby-lang.org/pub/ruby/${VERSION%.*}/ruby-$VERSION.tar.gz" -o /tmp/ruby-$VERSION.tar.gz && \
+#       mkdir /tmp/ruby-2.7.0 && \
+#       tar -xf /tmp/ruby-.tar.gz -C /tmp/ruby-2.7.0 --strip-components=1 && \
+#       rm /tmp/ruby-2.7.0.tar.gz && \
+#       cd /tmp/ruby-2.7.0 && \
+#       ./configure --disable-install-doc --prefix=/usr/local/ruby-2.7.0 && \
+#       make -j$(nproc) && \
+#       make -j$(nproc) install && \
+#       rm -rf /tmp/*; \
+#     done
 
 # ENV PATH "/usr/local/ruby-3.3.0/bin:/opt/.gem/bin:$PATH"
-ENV PATH "/usr/local/ruby-2.7.0/bin:/opt/.gem/bin:$PATH"
+ENV PATH "/usr/local/ruby-3.3.0/bin:/opt/.gem/bin:$PATH"
 ENV GEM_HOME "/opt/.gem/"
 
 RUN apt-get update && \
@@ -38,7 +36,7 @@ RUN apt-get update && \
       sudo && \
     rm -rf /var/lib/apt/lists/* && \
     echo "gem: --no-document" > /root/.gemrc && \
-    gem install bundler:2.1.4 && \
+    gem install bundler:2.5.6 && \
     npm install -g --unsafe-perm aglio@2.3.0
 
 ENV VIRTUAL_PORT 2358
