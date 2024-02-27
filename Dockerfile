@@ -26,7 +26,7 @@ LABEL maintainer=$JUDGE0_MAINTAINER
 #     done
 
 # ENV PATH "/usr/local/ruby-3.3.0/bin:/opt/.gem/bin:$PATH"
-ENV PATH "/usr/local/ruby-3.3.0/bin:/opt/.gem/bin:$PATH"
+ENV PATH "/usr/local/ruby-2.7.0/bin:/opt/.gem/bin:$PATH"
 ENV GEM_HOME "/opt/.gem/"
 
 RUN apt-get update && \
@@ -36,7 +36,7 @@ RUN apt-get update && \
       sudo && \
     rm -rf /var/lib/apt/lists/* && \
     echo "gem: --no-document" > /root/.gemrc && \
-    gem install bundler:2.5.6 && \
+    gem install bundler:2.1.4 && \
     npm install -g --unsafe-perm aglio@2.3.0
 
 ENV VIRTUAL_PORT 2358
