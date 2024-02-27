@@ -2,8 +2,7 @@
 Resque.redis = Redis.new(
   host:     ENV["REDIS_HOST"],
   port:     ENV["REDIS_PORT"],  # Corrected: Use REDIS_PORT for port
-  password: ENV["REDIS_PASSWORD"],
-  thread_safe: true
+  password: ENV["REDIS_PASSWORD"]
 )
 
 # Set the Redis namespace if provided in the environment
