@@ -1,4 +1,4 @@
-FROM deveshy/compiler:v1test1light AS production
+FROM deveshy/compiler:ruby2 AS production
 
 ENV JUDGE0_HOMEPAGE "https://judge0.com"
 LABEL homepage=$JUDGE0_HOMEPAGE
