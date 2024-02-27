@@ -9,7 +9,26 @@ LABEL source_code=$JUDGE0_SOURCE_CODE
 ENV JUDGE0_MAINTAINER "Herman Zvonimir Došilović <hermanz.dosilovic@gmail.com>"
 LABEL maintainer=$JUDGE0_MAINTAINER
 
-ENV PATH "/usr/local/ruby-3.3.0/bin:/opt/.gem/bin:$PATH"
+
+ENV RUBY_VERSIONS \
+      2.7.0
+RUN set -xe && \
+    for VERSION in $RUBY_VERSIONS; do \
+      curl -fSsL "https://cache.ruby-lang.org/pub/ruby/${VERSION%.*}/ruby-$VERSION.tar.gz" -o /tmp/ruby-$VERSION.tar.gz && \
+      mkdir /tmp/ruby-$VERSION && \
+      tar -xf /tmp/ruby-$VERSION.tar.gz -C /tmp/ruby-$VERSION --strip-components=1 && \
+      rm /tmp/ruby-$VERSION.tar.gz && \
+      cd /tmp/ruby-$VERSION && \
+      ./configure \
+        --disable-install-doc \
+        --prefix=/usr/local/ruby-$VERSION && \
+      make -j$(nproc) && \
+      make -j$(nproc) install && \
+      rm -rf /tmp/*; \
+    done
+
+# ENV PATH "/usr/local/ruby-3.3.0/bin:/opt/.gem/bin:$PATH"
+ENV PATH "/usr/local/ruby-2.7.0/bin:/opt/.gem/bin:$PATH"
 ENV GEM_HOME "/opt/.gem/"
 
 RUN apt-get update && \
@@ -49,15 +68,15 @@ LABEL version=$JUDGE0_VERSION
 
 FROM production AS development
 
-# ARG DEV_USER=judge0
-# ARG DEV_USER_ID=1000
+ARG DEV_USER=judge0
+ARG DEV_USER_ID=1000
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         tmux \
-        vim
-#     useradd -u $DEV_USER_ID -m -r $DEV_USER && \
-#     echo "$DEV_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
+        vim && \
+    useradd -u $DEV_USER_ID -m -r $DEV_USER && \
+    echo "$DEV_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
 
 # RUN groupadd crond-users && \
 #     mkdir -p /var/run && \
@@ -65,6 +84,6 @@ RUN apt-get update && \
 #     chgrp crond-users /var/run/crond.pid && \
 #     usermod -a -G crond-users $DEV_USER
 
-# USER $DEV_USER
+USER $DEV_USER
 
 CMD ["sleep", "infinity"]
