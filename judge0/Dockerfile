@@ -72,9 +72,9 @@ FROM production AS development
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         tmux \
-        vim && \
-    useradd -u $DEV_USER_ID -m -r $DEV_USER && \
-    echo "$DEV_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
+        vim
+    # useradd -u $DEV_USER_ID -m -r $DEV_USER && \
+    # echo "$DEV_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
 
 # RUN groupadd crond-users && \
 #     mkdir -p /var/run && \
