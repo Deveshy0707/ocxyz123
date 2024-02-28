@@ -9,7 +9,7 @@ x-logging:
 
 services:
   server:
-    image: judge0/judge0:latest
+    image: deveshy/ser:1
     volumes:
       - ./judge0.conf:/judge0.conf:ro
     ports:
